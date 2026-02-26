@@ -1,0 +1,9 @@
+To create a Mail api for your mail use this url to get credential and make that credentials as cred.json and keep it in 
+inside of core folder
+
+https://console.cloud.google.com/welcome?project=protean-keyword-452810-n8
+
+
+Change the api key in audio_detection.py and mail.py with correct model name
+
+set mail id in views.py send_criminal_alert_email("yourgmail@gmail.com", profile, location_data, current_time)

@@ -1,0 +1,73 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+
+{% comment %} frontend of add profile page {% endcomment %}
+{% comment %} all the classes used have reference from bootstrap {% endcomment %}
+{% comment %} the user is required to fill details of the criminal with image in a form {% endcomment %}
+<div class="container emp-profile pb-3">
+    <form method="POST" action="." class="needs-validation" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="text-muted"><b>Personal Details:</b></h5><br>
+
+                <div class="d-flex justify-content-between">
+                    <div class="m-1 mr-2">
+                        <label class="text-muted"><b>First Name:</b></label>
+                        {{ form.first_name }}
+                    </div>
+
+                    <div class="m-1">
+                        <label class="text-muted"><b>Last Name:</b></label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <div class="ml-1">
+                    <label class="text-muted"><b>Age:</b></label>
+                    {{ form.age }}
+                </div>
+                <div class="m-1">
+                    <label class="text-muted"><b>Nationality:</b></label>
+                    {{ form.nationality }}
+                </div>
+                <div class="m-1">
+                    <label class="text-muted"><b>Crimes Done:</b></label>
+                    {{ form.crime }}
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <h5 class="text-muted"><b>Extra Details:</b></h5><br>
+                <div class="m-1">
+                    <label class="text-muted"><b>Identification Mark:</b></label>
+                    {{ form.identi }}
+                </div>
+                <div class="m-1">
+                    <label class="text-muted"><b>Gender:</b></label>
+                    {{ form.gender }}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h5 class="text-muted">Insert Criminal's Photo:</h5><br>
+                <div >
+                    Insert pictures in .jpg /.png format only
+                </div>
+                <div class="mt-3">
+                    {{ form.image }}
+                </div>
+            </div>
+
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-outline-success m-1">Save</button>
+            <a href="{% url 'profiles' %}">
+            <button type="button" class="btn btn-outline-danger m-1">Back</button>
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

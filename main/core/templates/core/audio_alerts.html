@@ -1,0 +1,255 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container emp-profile">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="text-muted p-1">🎤 Audio Alert Detection System</h4>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'home' %}">
+                <button class="btn btn-outline-secondary m-1">Back to Home</button>
+            </a>
+            <a href="{% url 'clear_audio_alerts' %}">
+                <button class="btn btn-outline-danger m-1">Clear All Alerts</button>
+            </a>
+        </div>
+    </div>
+    <hr>
+    
+    <!-- Control Buttons -->
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <button id="startAudioBtn" class="btn btn-success btn-lg mr-3">
+                🎤 Start Audio Detection
+            </button>
+            <button id="stopAudioBtn" class="btn btn-danger btn-lg" disabled>
+                ⏹️ Stop Audio Detection
+            </button>
+            <p class="text-muted mt-2">
+                System listens for phrases like "Help me", "Save me", "Emergency"
+            </p>
+        </div>
+    </div>
+    
+    <!-- Alert Status -->
+    <div class="alert alert-info" id="statusAlert">
+        <h5>🔊 System Status: <span id="statusText">Ready to start</span></h5>
+        <p id="statusDetail">Click "Start Audio Detection" to begin listening</p>
+    </div>
+    
+    <!-- Audio Alerts Table -->
+    <h5 class="mt-4">🚨 Detected Audio Alerts</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Detected Text</th>
+                <th>Alert Type</th>
+                <th>📍 Location</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.id }}</td>
+                <td>
+                    <strong>"{{ alert.detected_text|truncatechars:50 }}"</strong>
+                    {% if alert.detected_text|length > 50 %}
+                    <button class="btn btn-sm btn-link" data-toggle="collapse" 
+                            data-target="#fullText{{ alert.id }}">
+                        Show more
+                    </button>
+                    <div id="fullText{{ alert.id }}" class="collapse">
+                        {{ alert.detected_text }}
+                    </div>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if alert.alert_type == 'help' %}
+                    <span class="badge badge-danger">🆘 HELP</span>
+                    {% elif alert.alert_type == 'save' %}
+                    <span class="badge badge-warning">🆘 SAVE</span>
+                    {% elif alert.alert_type == 'emergency' %}
+                    <span class="badge badge-danger">🚨 EMERGENCY</span>
+                    {% elif alert.alert_type == 'danger' %}
+                    <span class="badge badge-dark">⚠️ DANGER</span>
+                    {% else %}
+                    <span class="badge badge-info">🔊 ALERT</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if alert.city and alert.city != 'Unknown' %}
+                    {{ alert.city }}
+                    {% if alert.latitude and alert.longitude %}
+                    <br>
+                    <a href="https://www.google.com/maps?q={{alert.latitude}},{{alert.longitude}}" 
+                       target="_blank" class="text-info">
+                        📍 View on Map
+                    </a>
+                    {% endif %}
+                    {% else %}
+                    <span class="text-muted">No location data</span>
+                    {% endif %}
+                </td>
+                <td>{{ alert.formatted_date }}</td>
+                <td>
+                    {% if alert.action_taken %}
+                    <span class="badge badge-success">Action Taken</span>
+                    {% elif alert.is_verified %}
+                    <span class="badge badge-info">Verified</span>
+                    {% else %}
+                    <span class="badge badge-warning">Pending</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No audio alerts detected yet
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        let isListening = false;
+        
+        // Start Audio Detection
+        $('#startAudioBtn').click(function() {
+            $.ajax({
+                url: '{% url "start_audio_detection" %}',
+                method: 'GET',
+                success: function(response) {
+                    isListening = true;
+                    $('#statusText').text('LISTENING...');
+                    $('#statusDetail').text('Microphone is active. Speak phrases like "Help me", "Save me"');
+                    $('#statusAlert').removeClass('alert-info').addClass('alert-success');
+                    $('#startAudioBtn').prop('disabled', true);
+                    $('#stopAudioBtn').prop('disabled', false);
+                    
+                    // Show notification
+                    showNotification('🎤 Audio detection started', 'success');
+                    
+                    // Auto-refresh alerts every 10 seconds
+                    startAutoRefresh();
+                },
+                error: function() {
+                    showNotification('❌ Failed to start audio detection', 'danger');
+                }
+            });
+        });
+        
+        // Stop Audio Detection
+        $('#stopAudioBtn').click(function() {
+            $.ajax({
+                url: '{% url "stop_audio_detection" %}',
+                method: 'GET',
+                success: function(response) {
+                    isListening = false;
+                    $('#statusText').text('STOPPED');
+                    $('#statusDetail').text('Audio detection is stopped. Click start to begin again.');
+                    $('#statusAlert').removeClass('alert-success').addClass('alert-info');
+                    $('#startAudioBtn').prop('disabled', false);
+                    $('#stopAudioBtn').prop('disabled', true);
+                    
+                    // Show notification
+                    showNotification('⏹️ Audio detection stopped', 'warning');
+                    
+                    // Stop auto-refresh
+                    stopAutoRefresh();
+                }
+            });
+        });
+        
+        // Auto-refresh function
+        let refreshInterval;
+        function startAutoRefresh() {
+            refreshInterval = setInterval(function() {
+                location.reload();
+            }, 10000); // Refresh every 10 seconds
+        }
+        
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            let notification = $('<div class="alert alert-' + type + ' alert-dismissible fade show" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">' +
+                                '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                                message +
+                                '</div>');
+            
+            // Add to page
+            $('body').append(notification);
+            
+            // Auto remove after 3 seconds
+            setTimeout(function() {
+                notification.alert('close');
+            }, 3000);
+        }
+        
+        // Check initial status
+        function checkStatus() {
+            // You could implement a status check endpoint if needed
+        }
+        
+        // Get location periodically
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        $.ajax({
+                            url: '{% url "save_location" %}',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            }),
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            }
+                        });
+                    },
+                    function(error) {
+                        console.log("Location access error:", error.message);
+                    }
+                );
+            }
+        }
+        
+        // Get location on page load and every 30 seconds
+        getLocation();
+        setInterval(getLocation, 30000);
+    });
+</script>
+
+<style>
+    .badge {
+        font-size: 0.9em;
+        padding: 5px 10px;
+    }
+    .alert {
+        border-radius: 10px;
+    }
+    #statusAlert {
+        background-color: #f8f9fa;
+        border: 2px solid #dee2e6;
+    }
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+</style>
+
+{% endblock content %}

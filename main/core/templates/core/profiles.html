@@ -1,0 +1,70 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+
+{% comment %} some classes have reference from bootstrap  {% endcomment %}
+{% comment %} some classes are mentioned in details.css file in static folder {% endcomment %}
+{% comment %} This page shows all the criminal profiles in database and have options to add,edit 
+and delete them {% endcomment %}
+<div class="container emp-profile">
+
+    <div class="row">
+        <div class="col-md-3">        {% comment %} to adjust the size of image and title {% endcomment %}
+            <h4 class="text-muted p-1"> Roman- A Criminal Detection Platform</h4>
+            <img src="{% static 'img/logo.png'%}" alt="" width="250%">
+        </div>
+        <div class="col-md-5">       
+        </div>
+        <div class="col-md-4">       
+            <a href="{% url 'add_profile' %}">
+                <input type="submit" class="profile-edit-btn m-2 " name="btnAddMore"
+                    value="Add New Criminal " /></a>
+            <a   href="{% url 'home' %}">
+                <input type="submit" class="profile-edit-btn m-2 "
+                        name="btnAddMore" value="Back" /></a>
+        </div>
+    </div>
+    <hr>
+
+    <div class="tab-content" id="myTabContent"><br>  
+        {% comment %} table to show all criminal profiles {% endcomment %} 
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Identification Mark</th>
+                    <th scope="col"> </th>     {% comment %} for edit button {% endcomment %}
+                    <th scope="col"> </th>    {% comment %} for delete button {% endcomment %}
+                 </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                <tr>
+                    <td>{{profile.first_name}} {{profile.last_name}}</td>
+                    <td>{{profile.age}}</td>
+                    <td>{{profile.gender}}</td>
+                    <td>{{profile.identi}}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group btn-group-toggle">
+                            <a href="{% url 'edit_profile' profile.id %}">
+                                <button type="button" class="btn btn-outline-success mr-2">
+                                    Edit 
+                                </button>
+                            </a>
+                            <a href="{% url 'delete_profile' profile.id %}">
+                                <button type="button" class="btn btn-outline-danger ml-2">
+                                    Delete
+                                </button>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
