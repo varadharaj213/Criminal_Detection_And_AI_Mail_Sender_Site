@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block body %}
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <div class="logo">
+            <img src="../static/img/favicon.png" alt="logo">
+            <h1 id="nav-title">Cyber Vision</h1>
+        </div>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto" href="dashboard">Dashboard</a></li>
+                <li><a class="nav-link scrollto" href="live">Live</a></li>
+                <li><a class="nav-link scrollto active" href="javascript:void(0)">About</a></li>
+                <li><a class="nav-link scrollto" href="log_out">Logout</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+<section id="team" class="team">
+    <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+            <h2>About</h2>
+            <p>Criminal Activity Detection</p>
+        </div>
+
+        <div class="row flex align-items-center">
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch">
+                <div class="member" data-aos="zoom-in">
+                    <div class="member-img">
+                        <img src="../static/img/team/anjali.png" class="img-fluid" alt=""
+                            style="background-color: white;">
+                    </div>
+                    <div class="member-info">
+                        <h4>Anjali Barde</h4>
+                        <span>B.E. Computer</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch">
+                <div class="member" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="member-img">
+                        <img src="../static/img/team/mayur.jpg" class="img-fluid" alt="">
+
+                    </div>
+                    <div class="member-info">
+                        <h4>Mayur Dehade</h4>
+                        <span>B.E. Computer</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch">
+                <div class="member" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="member-img">
+                        <img src="../static/img/team/milind.jpg" class="img-fluid" alt="">
+                    </div>
+                    <div class="member-info">
+                        <h4>Milind Ghegadmal</h4>
+                        <span>B.E. Computer</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch">
+                <div class="member" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="member-img">
+                        <img src="../static/img/team/dipak.jpg" class="img-fluid" alt="">
+                    </div>
+                    <div class="member-info">
+                        <h4>Dipak Bhide</h4>
+                        <span>B.E. Computer</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <h3 class="foot-text" id="glow">Cyber Vision</h3>
+                </div>
+                <p>Creade by Students of MET</p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+{% endblock body %}
