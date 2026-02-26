@@ -12,21 +12,20 @@
         </div>
         <div class="col-md-5">
             <a href="{% url 'profiles' %}">
-                <input type="submit" class="profile-edit-btn m-2 "
-                        name="btnAddMore" value="View Criminal Profiles" /></a>
-                        
+                <input type="submit" class="profile-edit-btn m-2 " name="btnAddMore"
+                    value="View Criminal Profiles" /></a>
+
             <a target="_blank" class="scan" href="{% url 'details' %}">
-                <input type="submit" class="profile-edit-btn m-2"
-                    name="btnAddMore" value="Detect criminal" /></a>
+                <input type="submit" class="profile-edit-btn m-2" name="btnAddMore"
+                    value="Detect criminal in Camera" /></a>
 
             <a href="{% url 'audio_alerts' %}">
-    <input type="submit" class="profile-edit-btn m-2 btn-warning"
-           name="btnAddMore" value="🎤 Detect by Audio" />
-</a>
+                <input type="submit" class="profile-edit-btn m-2 btn-warning" name="btnAddMore"
+                    value="🎤 Detect by Audio" />
+            </a>
 
-<a href="http://127.0.0.1:5000/dashboard">
-                <input type="submit" class="profile-edit-btn m-2 btn-info"
-                       name="btnAddMore" value="🏠 Home" />
+            <a href="http://127.0.0.1:5000/dashboard">
+                <input type="submit" class="profile-edit-btn m-2 btn-info" name="btnAddMore" value="Upload Video" />
             </a>
         </div>
     </div>
@@ -58,8 +57,8 @@
                         <td>{{face.last_face}}</td>
                         <td>
                             {% if face.latitude and face.longitude %}
-                            <a href="https://www.google.com/maps?q={{face.latitude}},{{face.longitude}}" 
-                               target="_blank" class="text-info">
+                            <a href="https://www.google.com/maps?q={{face.latitude}},{{face.longitude}}" target="_blank"
+                                class="text-info">
                                 📍 View on Map
                             </a>
                             {% else %}
@@ -74,7 +73,8 @@
                 </tbody>
             </table>
 
-            <a href="{% url 'clear_history' %}"><button type="button" class="btn btn-outline-danger m-1">Clear History</button></a>
+            <a href="{% url 'clear_history' %}"><button type="button" class="btn btn-outline-danger m-1">Clear
+                    History</button></a>
         </div>
     </div>
 </div>
