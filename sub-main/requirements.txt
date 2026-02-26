@@ -1,0 +1,26 @@
+# Web framework
+Django>=4.0,<5.0
+
+# Deep learning
+tensorflow>=2.10.0
+keras>=2.10.0
+
+# Object detection (YOLO implementation via PyTorch)
+torch>=1.12.1
+torchvision>=0.13.1
+opencv-python>=4.6.0
+
+# Video and image processing
+numpy>=1.22.0
+Pillow>=9.0.0
+scikit-image>=0.19.0
+matplotlib>=3.5.0
+
+# For alerts (SMS/email via Twilio)
+twilio>=8.0.0
+
+# Database
+pytz>=2022.7
+
+# Utilities
+python-dotenv>=0.21.0
