@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body %}
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <div class="logo">
+            <img src="../static/img/favicon.png" alt="logo">
+            <h1 id="nav-title">Cyber Vision</h1>
+        </div>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto" href="../dashboard" style="font-size: 15px; color: #52994c; cursor: pointer;">Close Camera</a></li>
+                <li><a class="nav-link scrollto " href="../dashboard">Dashboard</a></li>
+                <li><a class="nav-link scrollto" href="../about">About</a></li>
+                <li><a class="nav-link scrollto" href="../log_out">Logout</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+<div class="container-fluid result-cont">
+    <header class="mb-2">
+        <div class="row">
+            <span class="col">
+                <h1 class="text-center" style="margin: 0;">Result</h1>
+            </span>
+        </div>
+    </header>
+    <hr class="my-1 mb-3">
+    <div class="d-flex justify-content-center align-items-center">
+        <img src="{%url 'livestreamdt'%}" id='vidHolder' style="width: 42%;">
+    </div>
+</div>
+{% endblock body %}

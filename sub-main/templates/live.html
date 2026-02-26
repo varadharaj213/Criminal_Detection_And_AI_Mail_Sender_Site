@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block body %}
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <div class="logo">
+            <img src="../static/img/favicon.png" alt="logo">
+            <h1 id="nav-title">Cyber Vision</h1>
+        </div>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto" href="dashboard">Dashboard</a></li>
+                <li><a class="nav-link scrollto active" href="javascript:void(0)">Live</a></li>
+                <li><a class="nav-link scrollto" href="about">About</a></li>
+                <li><a class="nav-link scrollto" href="log_out">Logout</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+<div id="main">
+    <div class="container-fluid live cont-live">
+        <form method="POST" enctype="multipart/form-data" id="cam_form">
+            {% csrf_token %}
+            <input type="text" name="cam" required="" id="id_cam" value="0" hidden>
+            <button class="fBtn cta-btn align-middle btn-width rounded-1 start-cam" data-aos="fade-up">Start Camera</button>
+        </form>
+    </div>
+</div>
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <h3 class="foot-text" id="glow">Cyber Vision</h3>
+                </div>
+                <p>Creade by Students of MET</p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock body %}
